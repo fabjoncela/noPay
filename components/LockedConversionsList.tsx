@@ -169,13 +169,8 @@ export default function LockedConversionsList() {
 
       {conversions.length === 0 ? (
         <div className="text-center py-6 bg-gray-50 rounded-lg border border-gray-200">
-          <p className="text-gray-500">No locked conversions found</p>
-          <button
-            onClick={() => router.push("/dashboard/locked-conversions/new")}
-            className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
-          >
-            Create a Locked Conversion
-          </button>
+          <p className="text-gray-500">No unlocked conversions found</p>
+
         </div>
       ) : (
         <div className="space-y-4">

@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import {
   Card,
   CardContent,
@@ -16,7 +17,9 @@ import {
   ArrowUpRight,
   Clock,
   CircleDollarSign,
-  MoreHorizontal
+  MoreHorizontal,
+  X,
+  Lock
 } from "lucide-react"
 import {
   DropdownMenu,
@@ -26,9 +29,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import WalletActivity from "./wallet-activity" // Import the new component
 
 export default function WalletCard({ wallet }) {
   const [isHovered, setIsHovered] = useState(false)
+  const [showActivity, setShowActivity] = useState(false)
+  const router = useRouter()
 
   const getCurrencyIcon = (currency) => {
     switch (currency) {
@@ -106,6 +112,24 @@ export default function WalletCard({ wallet }) {
     }
   }
 
+  const handleActivityClick = () => {
+    setShowActivity(true)
+  }
+
+  const handleLockInRedirect = () => {
+    router.push("/dashboard/locked-conversions/new?currency=" + wallet.currency)
+  }
+
+  const closeActivity = () => {
+    setShowActivity(false)
+  }
+
+  // If activity is displayed, show the activity component
+  if (showActivity) {
+    return <WalletActivity wallet={wallet} onClose={closeActivity} />
+  }
+
+  // Otherwise show the regular wallet card
   return (
       <Card
           className={`overflow-hidden border-none shadow-md transition-all duration-300 ${isHovered ? 'shadow-lg scale-[1.02]' : ''} bg-gradient-to-br ${getBackgroundGradient(wallet.currency)}`}
@@ -137,11 +161,22 @@ export default function WalletCard({ wallet }) {
           </div>
 
           <div className="grid grid-cols-2 gap-2 mt-4">
-            <Button variant="outline" size="sm" className="text-xs">
-              <ArrowUpRight className="h-3 w-3 mr-1" /> Send
-            </Button>
-            <Button variant="outline" size="sm" className="text-xs">
+            <Button
+                variant="outline"
+                size="sm"
+                className="text-xs"
+                onClick={handleActivityClick}
+            >
               <BarChart3 className="h-3 w-3 mr-1" /> Activity
+            </Button>
+
+            <Button
+                variant="outline"
+                size="sm"
+                className="text-xs"
+                onClick={handleLockInRedirect}
+            >
+              <Lock className="h-3 w-3 mr-1" /> Lock Currency
             </Button>
           </div>
         </CardContent>
@@ -158,7 +193,8 @@ export default function WalletCard({ wallet }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-40">
               <DropdownMenuItem>Edit Details</DropdownMenuItem>
-              <DropdownMenuItem>Transaction History</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleActivityClick}>Transaction History</DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuSeparator />
               <DropdownMenuItem className="text-red-500">Delete Wallet</DropdownMenuItem>
             </DropdownMenuContent>

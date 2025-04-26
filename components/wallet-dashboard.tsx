@@ -131,6 +131,9 @@ export default function WalletDashboard({ initialWallets }) {
   const handleLockInRedirect = () => {
     router.push("/dashboard/locked-conversions/new")
   }
+  const handleLockedsInRedirect = () => {
+    router.push("/locked-conversions")
+  }
 
   // Get unique currencies for filter badges
   const uniqueCurrencies = [...new Set(wallets.map(wallet => wallet.currency))]
@@ -270,6 +273,7 @@ export default function WalletDashboard({ initialWallets }) {
                     value="lock-in"
                     className="data-[state=active]:bg-white data-[state=active]:shadow-md rounded-lg px-4 py-2.5"
                 >
+
                   <Lock className="h-4 w-4 mr-2" />
                   Currency Lock-in Deposit
                 </TabsTrigger>
@@ -431,7 +435,7 @@ export default function WalletDashboard({ initialWallets }) {
               </Card>
             </TabsContent>
 
-            {/* Lock-in Deposit Tab */}
+
             <TabsContent value="lock-in">
               <Card className="border-none shadow-md overflow-hidden">
                 <div className="h-1 bg-gradient-to-r from-emerald-500 to-green-500"></div>
@@ -469,6 +473,14 @@ export default function WalletDashboard({ initialWallets }) {
                     >
                       <Lock className="h-4 w-4 mr-2" />
                       Create New Lock-in Deposit
+                    </Button>
+                    <Button
+                        onClick={handleLockedsInRedirect}
+                        className="w-full bg-white border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-50"
+                        size="lg"
+                    >
+                      <BarChart3 className="h-4 w-4 mr-2" />
+                      View Current Locked Deposits
                     </Button>
                   </div>
                 </CardContent>
