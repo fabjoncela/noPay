@@ -1,5 +1,49 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// // This is your Prisma schema file,
+// // learn more about it in the docs: https://pris.ly/d/prisma-schema
+//
+// generator client {
+//   provider = "prisma-client-js"
+// }
+//
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+//
+// model Account {
+//   id        String   @id @default(cuid())
+//   email     String   @unique
+//   password  String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   wallets   Wallet[]
+// }
+//
+// model Wallet {
+//   id          String   @id @default(cuid())
+//   name        String   @default("My Wallet")
+//   currency    String
+//   balance     Float    @default(0)
+//   accountId   String
+//   account     Account  @relation(fields: [accountId], references: [id])
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+//
+//   @@index([accountId])
+// }
+//
+// model Transaction {
+//   id              String   @id @default(cuid())
+//   type            String   // "IMPORT", "CONVERT_FROM", "CONVERT_TO"
+//   amount          Float
+//   currency        String
+//   walletId        String
+//   sourceWalletId  String?  // For conversion transactions
+//   exchangeRate    Float?   // For conversion transactions
+//   createdAt       DateTime @default(now())
+// }
+// // This is your Prisma schema file,
+// // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -11,34 +55,66 @@ datasource db {
 }
 
 model Account {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  wallets   Wallet[]
+  id                String             @id @default(cuid())
+  email             String             @unique
+  password          String
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  wallets           Wallet[]
+  lockedConversions LockedConversion[]
 }
 
 model Wallet {
-  id          String   @id @default(cuid())
-  name        String   @default("My Wallet")
-  currency    String
-  balance     Float    @default(0)
-  accountId   String
-  account     Account  @relation(fields: [accountId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                      String             @id @default(cuid())
+  name                    String             @default("My Wallet")
+  currency                String
+  balance                 Float              @default(0)
+  accountId               String
+  account                 Account            @relation(fields: [accountId], references: [id])
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+  sourceLockedConversions LockedConversion[] @relation("SourceWallet")
+  targetLockedConversions LockedConversion[] @relation("TargetWallet")
 
   @@index([accountId])
 }
 
 model Transaction {
-  id              String   @id @default(cuid())
-  type            String   // "IMPORT", "CONVERT_FROM", "CONVERT_TO"
-  amount          Float
-  currency        String
-  walletId        String
-  sourceWalletId  String?  // For conversion transactions
-  exchangeRate    Float?   // For conversion transactions
-  createdAt       DateTime @default(now())
+  id                 String   @id @default(cuid())
+  type               String // "IMPORT", "CONVERT_FROM", "CONVERT_TO", "LOCK_FROM", "LOCK_TO", "UNLOCK_FROM", "UNLOCK_TO"
+  amount             Float
+  currency           String
+  walletId           String
+  sourceWalletId     String? // For conversion transactions
+  exchangeRate       Float? // For conversion transactions
+  lockedConversionId String? // Reference to locked conversion if applicable
+  createdAt          DateTime @default(now())
+}
+
+model LockedConversion {
+  id               String    @id @default(cuid())
+  accountId        String
+  account          Account   @relation(fields: [accountId], references: [id])
+  sourceWalletId   String
+  sourceWallet     Wallet    @relation("SourceWallet", fields: [sourceWalletId], references: [id])
+  targetWalletId   String
+  targetWallet     Wallet    @relation("TargetWallet", fields: [targetWalletId], references: [id])
+  sourceAmount     Float // Original amount in source currency
+  targetAmount     Float // Converted amount in target currency
+  sourceCurrency   String // Source currency code
+  targetCurrency   String // Target currency code
+  exchangeRate     Float // Locked exchange rate
+  fee              Float // Fee amount in source currency
+  feePercentage    Float // Fee percentage (e.g., 3.0 for 3%)
+  status           String // "ACTIVE", "UNLOCKED", "CANCELLED"
+  lockDate         DateTime  @default(now())
+  unlockDate       DateTime // When the funds become available for reconversion
+  actualUnlockDate DateTime? // When the user actually unlocked the funds
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([accountId])
+  @@index([sourceWalletId])
+  @@index([targetWalletId])
+  @@index([status])
 }

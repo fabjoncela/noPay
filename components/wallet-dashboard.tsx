@@ -18,7 +18,8 @@ import {
   Shield,
   CircleDollarSign,
   BarChart3,
-  Clock
+  Clock,
+  Lock
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -125,6 +126,10 @@ export default function WalletDashboard({ initialWallets }) {
       toast.error("Failed to log out")
       console.error(error)
     }
+  }
+
+  const handleLockInRedirect = () => {
+    router.push("/dashboard/locked-conversions/new")
   }
 
   // Get unique currencies for filter badges
@@ -260,6 +265,13 @@ export default function WalletDashboard({ initialWallets }) {
                 >
                   <ArrowDownUp className="h-4 w-4 mr-2" />
                   Convert Funds
+                </TabsTrigger>
+                <TabsTrigger
+                    value="lock-in"
+                    className="data-[state=active]:bg-white data-[state=active]:shadow-md rounded-lg px-4 py-2.5"
+                >
+                  <Lock className="h-4 w-4 mr-2" />
+                  Currency Lock-in Deposit
                 </TabsTrigger>
               </TabsList>
 
@@ -415,6 +427,50 @@ export default function WalletDashboard({ initialWallets }) {
                 </CardHeader>
                 <CardContent>
                   <ConvertFundsForm wallets={wallets} onFundsConverted={handleFundsConverted} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Lock-in Deposit Tab */}
+            <TabsContent value="lock-in">
+              <Card className="border-none shadow-md overflow-hidden">
+                <div className="h-1 bg-gradient-to-r from-emerald-500 to-green-500"></div>
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center">
+                      <Lock className="h-5 w-5 text-emerald-600" />
+                    </div>
+                    <div>
+                      <CardTitle>Currency Lock-in Deposit</CardTitle>
+                      <CardDescription>Lock your currency at a fixed exchange rate for higher returns</CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    <div className="bg-emerald-50 p-4 rounded-lg border border-emerald-100">
+                      <div className="flex items-start gap-3">
+                        <div className="mt-1 text-emerald-500">
+                          <Shield className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-emerald-700">Earn up to 12% APY on your funds</h4>
+                          <p className="text-emerald-600 text-sm mt-1">
+                            Lock your currency for a fixed period and earn higher interest rates while protecting against market volatility.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Button
+                        onClick={handleLockInRedirect}
+                        className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700"
+                        size="lg"
+                    >
+                      <Lock className="h-4 w-4 mr-2" />
+                      Create New Lock-in Deposit
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
