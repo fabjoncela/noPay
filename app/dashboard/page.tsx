@@ -27,12 +27,19 @@ export default async function DashboardPage() {
         {/* Header */}
         <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <img
+                  src="/upay-correct.png"
+                alt="UPay Logo"
+                className="h-10 w-10" // adjust the size as you like
+            />
+            <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-pink-500">
               UPay
             </h1>
+
             <div className="flex items-center space-x-4">
-              <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors">
-                <Settings className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+              <button
+                  className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors">
+                <Settings className="h-5 w-5 text-gray-600 dark:text-gray-300"/>
               </button>
               <div className="flex items-center space-x-2">
 

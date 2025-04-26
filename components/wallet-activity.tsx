@@ -165,7 +165,7 @@ export default function WalletActivity({ wallet, onClose }) {
 
                                                 {transaction.exchangeRate && (
                                                     <div className="text-xs text-gray-500 mt-1">
-                                                        Exchange rate: {transaction.exchangeRate.toFixed(4)}
+                                                        Exchange rate: {transaction.exchangeRate.toFixed(2)}
                                                     </div>
                                                 )}
                                             </div>

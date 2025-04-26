@@ -142,7 +142,8 @@ export default function WalletDashboard({ initialWallets , currentDateString }) 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Dashboard Header */}
         <div className="mb-10">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
+          <div className="flex flex-col md:flex-row md:justify-end md:items-center gap-4 mb-8">
+
             <div className="flex items-center gap-3">
               <Button
                   onClick={fetchWallets}
@@ -151,35 +152,35 @@ export default function WalletDashboard({ initialWallets , currentDateString }) 
                   disabled={isLoading}
                   className="border-gray-200 hover:border-gray-300 transition-all"
               >
-                <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? "animate-spin" : ""}`} />
+                <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? "animate-spin" : ""}`}/>
                 {isLoading ? "Updating..." : "Refresh"}
               </Button>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className="border-gray-200 hover:border-gray-300">
-                    <Settings className="h-4 w-4 mr-2" />
+                    <Settings className="h-4 w-4 mr-2"/>
                     Menu
-                    <ChevronDown className="h-3 w-3 ml-1 opacity-70" />
+                    <ChevronDown className="h-3 w-3 ml-1 opacity-70"/>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
                   <DropdownMenuLabel>Account Options</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
+                  <DropdownMenuSeparator/>
                   <DropdownMenuItem>
-                    <Shield className="h-4 w-4 mr-2 text-gray-500" />
+                    <Shield className="h-4 w-4 mr-2 text-gray-500"/>
                     Security Settings
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <TrendingUp className="h-4 w-4 mr-2 text-gray-500" />
+                    <TrendingUp className="h-4 w-4 mr-2 text-gray-500"/>
                     Transaction History
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
+                  <DropdownMenuSeparator/>
                   <DropdownMenuItem
                       onClick={handleLogout}
                       className="text-red-500 focus:text-red-500 focus:bg-red-50"
                   >
-                    <LogOut className="h-4 w-4 mr-2" />
+                    <LogOut className="h-4 w-4 mr-2"/>
                     Sign Out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -446,7 +447,7 @@ export default function WalletDashboard({ initialWallets , currentDateString }) 
                     </div>
                     <div>
                       <CardTitle>Currency Lock-in Deposit</CardTitle>
-                      <CardDescription>Lock your currency at a fixed exchange rate for higher returns</CardDescription>
+                      <CardDescription>Lock your currency at a fixed exchange rate</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
@@ -458,9 +459,9 @@ export default function WalletDashboard({ initialWallets , currentDateString }) 
                           <Shield className="h-5 w-5" />
                         </div>
                         <div>
-                          <h4 className="font-medium text-emerald-700">Earn up to 12% APY on your funds</h4>
+                          <h4 className="font-medium text-emerald-700">Save up to 20% of your potential loss</h4>
                           <p className="text-emerald-600 text-sm mt-1">
-                            Lock your currency for a fixed period and earn higher interest rates while protecting against market volatility.
+                            Lock your currency for a fixed period and make sure you maintain your value.
                           </p>
                         </div>
                       </div>
