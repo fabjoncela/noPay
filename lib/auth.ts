@@ -49,7 +49,7 @@ export function removeAuthCookie(response: NextResponse): NextResponse {
 
 export async function getCurrentUser(req?: NextRequest): Promise<UserJwtPayload | null> {
   try {
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const token = req ? req.cookies.get("auth-token")?.value : cookieStore.get("auth-token")?.value
 
     if (!token) return null
