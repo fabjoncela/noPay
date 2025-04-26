@@ -39,7 +39,7 @@ import ImportFundsForm from "./import-funds-form"
 import ConvertFundsForm from "./convert-funds-form"
 import WalletCard from "./wallet-card"
 
-export default function WalletDashboard({ initialWallets }) {
+export default function WalletDashboard({ initialWallets , currentDateString }) {
   const [wallets, setWallets] = useState(initialWallets)
   const [activeTab, setActiveTab] = useState("wallets")
   const [isLoading, setIsLoading] = useState(false)
@@ -225,7 +225,7 @@ export default function WalletDashboard({ initialWallets }) {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-blue-700">Last Updated</p>
-                    <h3 className="text-xl font-medium mt-1">{new Date().toLocaleString()}</h3>
+                    <h3 className="text-xl font-medium mt-1">{currentDateString}</h3>
                   </div>
                   <div className="h-14 w-14 rounded-full bg-blue-100 flex items-center justify-center">
                     <Clock className="h-7 w-7 text-blue-600" />

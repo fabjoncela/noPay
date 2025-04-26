@@ -20,6 +20,8 @@ export default async function DashboardPage() {
     redirect("/login")
   }
 
+  const currentDateString = new Date().toLocaleString()
+
   return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
         {/* Header */}
@@ -43,7 +45,10 @@ export default async function DashboardPage() {
         <div className="container mx-auto px-4 py-8">
           {/* Main Wallet Content */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700">
-            <WalletDashboard initialWallets={account.wallets} />
+            <WalletDashboard
+                initialWallets={account.wallets}
+                currentDateString={currentDateString}
+            />
           </div>
         </div>
       </div>
